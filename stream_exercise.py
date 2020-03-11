@@ -47,7 +47,10 @@ class StreamProcessor(object):
 
    def process(self):
       """
-      TODO: Implement the `process` method, as described above.
+      Processes a stream of characters into 2 character segments.  Converts the
+      characters into integers and adds them to a growing total.  Once the
+      total is <= 200 or count of the integer pairs processed reaches 10 this
+      function will return the count.
       
       :return: int
       """
@@ -56,14 +59,12 @@ class StreamProcessor(object):
                   # together.
       total = 0  # The running total of sums.
 
-      while total < 200 and count < 10:
-         digits = self._stream.read(2)
-
-         if len(digits) < 2:
-            break
-
+      digits = self._stream.read(2)
+      while total < 200 and count < 10 and len(digits) == 2:
          digits = int(digits)
          total += digits
          count += 1
+
+         digits = self._stream.read(2)
 
       return count
